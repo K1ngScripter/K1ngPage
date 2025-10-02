@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>K1ng Xis - Scripts</title>
+  <style>
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0f1820;--panel:#0f2328;--card:#0b1518;--accent:#49d0ff;--muted:#9ab0bc;
+      --glow: 0 10px 30px rgba(73,208,255,0.08), inset 0 0 30px rgba(73,208,255,0.03);
+    }
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,#061017 0%, #0d1b22 60%); color:#cfe6ee; min-height:100vh}
+
+    header{padding:48px 24px 24px;text-align:center}
+    h1{font-size:40px;color:var(--accent);letter-spacing:1px;margin-bottom:14px}
+
+    .top-controls{display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:24px}
+    .search{display:flex;align-items:center;gap:8px}
+    .search input{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:12px 14px;border-radius:8px;color:#cfe6ee;min-width:320px;outline:none}
+    .search button{background:linear-gradient(180deg,#63dbff,#34b6ff);border:none;padding:10px 12px;border-radius:8px;cursor:pointer}
+
+    .badges{display:flex;gap:12px;justify-content:center;margin-bottom:22px}
+    .badge{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:10px 18px;border-radius:9px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--glow);color:var(--accent);cursor:pointer}
+
+    .layout{display:flex;gap:28px;padding:28px 36px}
+    nav{width:220px;background:rgba(0,0,0,0.06);padding:22px;border-radius:8px;border-right:1px solid rgba(255,255,255,0.02)}
+    .nav-list{display:flex;flex-direction:column;gap:10px}
+    .nav-item{padding:12px 14px;border-radius:12px;color:var(--muted);cursor:pointer}
+    .nav-item.active{background:linear-gradient(180deg,rgba(73,208,255,0.03),rgba(73,208,255,0.01));color:var(--accent);box-shadow:0 8px 22px rgba(9,89,110,0.06)}
+
+    main{flex:1}
+
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(0,0,0,0.05));padding:24px;border-radius:16px;min-height:180px;border:1px solid rgba(73,208,255,0.06);box-shadow:0 12px 28px rgba(3,18,23,0.6), 0 0 40px rgba(73,208,255,0.06);position:relative;overflow:hidden}
+    .card h3{color:var(--accent);margin-bottom:12px}
+    .card p{color:var(--muted);line-height:1.5;font-size:14px}
+    .card .open-arrow{position:absolute;right:16px;bottom:12px;color:rgba(255,255,255,0.06)}
+
+    /* small screens */
+    @media (max-width:900px){
+      .layout{flex-direction:column;padding:18px}
+      nav{width:100%;display:flex;overflow:auto}
+      .nav-list{flex-direction:row}
+      .nav-item{white-space:nowrap}
+    }
+
+    /* subtle divider */
+    .separator{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.02),transparent);margin:18px 0}
+
+    /* small helpers */
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>K1ng Xis</h1>
+    <div class="top-controls">
+      <div class="search">
+        <input id="searchInput" placeholder="Pesquisar pelo título..." />
+        <button id="btnSearch">🔎</button>
+      </div>
+    </div>
+    <div class="badges">
+      <a class="badge" href="https://www.youtube.com/@k1ngxis" target="_blank">▶ YouTube</a>
+      <a class="badge" href="https://discord.gg/M5eQeQEg3d" target="_blank">🕹 Discord</a>
+      <a class="badge" href="https://github.com/K1ngScripter" target="_blank">🐙 GitHub</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav>
+      <div class="nav-list" id="categoryList">
+        <!-- Categories injected by JS -->
+      </div>
+      <div class="separator"></div>
+      <p style="color:var(--muted);font-size:13px">Clique em uma categoria para filtrar os scripts.</p>
+    </nav>
+
+    <main>
+      <section class="cards-grid" id="cardsGrid">
+        <!-- Cards injected by JS -->
+      </section>
+    </main>
+  </div>
+
+  <script>
+    /*******************************************************************
+     * Dados dos scripts
+     * Cada item tem: id, title, description, category, url
+     * -> Substitua os campos url pelos seus links (ou deixe em branco)
+     * -> Adicione/Remova itens/categorias conforme necessário
+     *******************************************************************/
+    const SCRIPTS = [
+      {id: 'zclaw', title: 'zClaw (PC)', description: 'Meu melhor executor o zClaw ele possui boostraper no key no crash 100% UNC site proprio.', category: 'Executores', url: 'https://oreofdev.github.io/Sw1ftSync/zclaw/'},
+      {id: 'krnl', title: 'Executor Krnl (Mobile)', description: 'Executor Krnl para mobile (exemplo).', category: 'Executores', url: 'https://wearedevs.net/d/Krnl'},
+      {id: 'delta', title: 'Delta Exploit (Mobile)', description: 'Executor delta para celular.', category: 'Executores', url: 'https://deltaexploits.gg/'},
+      {id: 'swift', title: 'Swift 100% UNC', description: 'Swift executor sem key 100% unc.', category: 'Executores', url: 'https://getswift.gg/'},
+      {id: 'cheatengine', title: 'Cheat Engine (PC)', description: 'Cheat engine nao e um executor mas...', category: 'https://www.cheatengine.org/', url: ''},
+      {id: 'targzapi', title: 'TargzAPI (PC)', description: 'targzapi api pra executores', category: 'Executores', url: 'https://link-hub.net/1261358/2huL17z5Q2cy'},
+
+      {id: 'load-a', title: 'Script Roube Um Brainrot', description: 'Um loadstring exemplo.', category: 'Loadstring', url: 'https://www.mediafire.com/file/vao3w5k1p1d25z6/Script_Roube_um_Brainrot_atualizado.txt/file'},
+      {id: 'load-b', title: 'Script 99 Noites', description: 'Outro loadstring.', category: 'Loadstring', url: 'https://www.mediafire.com/file/5d34wput3k7hvjl/Script_99_noites_atualizado.txt/file'},
+
+      {id: 'influ-1', title: 'Nenhuma', description: 'Ferramenta de influencer.', category: 'Influencers', url: ''},
+
+      {id: 'flappy', title: 'Sem Script', description: 'Sem Script.', category: 'Nenhum', url: ''},
+
+      {id: 'tux1', title: 'Sem Script', description: 'Sem script', category: 'Tux Sem sCRIPT', url: ''}
+    ];
+
+    // Lista de categorias (aparece no menu)
+    const CATEGORIES = ['Todos','Executores','Loadstring','Influencers','FlappyBird','Tux Cards'];
+
+    // --- Helpers ---
+    const categoryList = document.getElementById('categoryList');
+    const cardsGrid = document.getElementById('cardsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const btnSearch = document.getElementById('btnSearch');
+
+    let activeCategory = 'Todos';
+
+    function renderCategories(){
+      categoryList.innerHTML = '';
+      CATEGORIES.forEach(cat =>{
+        const div = document.createElement('div');
+        div.className = 'nav-item' + (cat===activeCategory? ' active':'');
+        div.textContent = cat;
+        div.addEventListener('click',()=>{ activeCategory = cat; renderCategories(); renderCards(); window.scrollTo({top:200,behavior:'smooth'}); });
+        categoryList.appendChild(div);
+      })
+    }
+
+    function openUrl(url){
+      if(!url) { alert('Link não configurado. Edite o arquivo JS e adicione o link no campo url para este script.'); return; }
+      // abre no mesmo tab - altere para '_blank' se preferir nova aba
+      window.open(url, '_blank');
+    }
+
+    function createCard(item){
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `<h3>${item.title}</h3><p>${item.description}</p><div class="open-arrow">→</div>`;
+      el.addEventListener('click', ()=> openUrl(item.url));
+      return el;
+    }
+
+    function renderCards(){
+      const q = searchInput.value.trim().toLowerCase();
+      cardsGrid.innerHTML = '';
+      let filtered = SCRIPTS.filter(s=> (activeCategory==='Todos' || s.category===activeCategory));
+      if(q) filtered = filtered.filter(s=> s.title.toLowerCase().includes(q) || s.description.toLowerCase().includes(q));
+
+      if(filtered.length===0){
+        const empty = document.createElement('div');
+        empty.style.padding='28px';
+        empty.style.color='var(--muted)';
+        empty.textContent = 'Nenhum script encontrado para essa busca/categoria.';
+        cardsGrid.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(item=> cardsGrid.appendChild(createCard(item)));
+    }
+
+    // search actions
+    btnSearch.addEventListener('click', ()=> renderCards());
+    searchInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') renderCards(); });
+
+    // initial render
+    renderCategories();
+    renderCards();
+
+    /*
+      Como usar:
+      1) Edite a const SCRIPTS acima e substitua os campos url pelos seus links.
+      2) Para abrir os links em nova aba, altere window.open(url, '_blank') na função openUrl.
+      3) Para adicionar categorias basta inserir na const CATEGORIES e setar category nos itens SCRIPTS.
+    */
+  </script>
+</body>
+</html>
